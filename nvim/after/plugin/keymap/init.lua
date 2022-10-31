@@ -5,7 +5,7 @@ local vnoremap = remap.vnoremap
 local xnoremap = remap.xnoremap
 local nmap = remap.nmap
 
-nnoremap("<leader>s", ":NeoTreeFocusToggle<CR>") 
+nnoremap("<leader>s", ":NvimTreeToggle<CR>") 
 nnoremap("<leader>u", ":UndotreeToggle<CR>") 
 nnoremap("<esc>", ":noh<CR>")
 

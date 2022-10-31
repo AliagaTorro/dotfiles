@@ -1,0 +1,31 @@
+# Font configuration
+
+font_family      Ubuntu Mono karulosu Medium Extended
+bold_font        Ubuntu Mono karulosu Medium Extended Bold # Extended
+italic_font      Ubuntu Mono karulosu Medium Extended Italic # Extended 
+bold_italic_font Ubuntu Mono karulosu Medium Extended Bold Italic # Extended 
+
+adjust_line_height  1
+adjust_column_width 2
+
+font_size 14.0
+
+sync_to_monitor no
+disable_ligatures always
+
+window_padding_width 4
+
+# NO BELLS!
+enable_audio_bell no
+
+map ctrl+shift+q noop
+map ctrl+shift+w noop
+
+map ctrl+shift+p>n kitten hints --type=linenum --linenum-action=tab nvim +{line} {path}
+
+kitty tmux
+
+# BEGIN_KITTY_THEME
+# Catppuccin-Mocha
+include current-theme.conf
+# END_KITTY_THEME

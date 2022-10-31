@@ -5,6 +5,8 @@ require "karulosu.packer"
 -- Plugin Config
 require "karulosu.statusline"
 require "karulosu.telescope"
+require "karulosu.colors"
+require "karulosu.debugger"
 -- require "karulosu.neotree"
 -- require "karulosu.colorizer"
 -- require "karulosu.todo-comments"

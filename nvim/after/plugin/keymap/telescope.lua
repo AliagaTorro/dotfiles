@@ -11,3 +11,9 @@ nnoremap("<leader>va", ":lua require('karulosu.telescope').anime_selector()<CR>"
 nnoremap("<leader>vc", ":lua require('karulosu.telescope').chat_selector()<CR>")
 nnoremap("<leader>td", ":lua require('karulosu.telescope').dev()<CR>")
 nnoremap("<leader>pp", ":lua require'telescope'.extensions.project.project{ display_type = 'minimal'}<CR>")
+nnoremap("<leader>ps", function()
+    require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})
+end)
+nnoremap("<leader>pw", function()
+    require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }
+end)

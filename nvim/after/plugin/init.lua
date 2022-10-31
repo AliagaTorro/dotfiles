@@ -1,18 +1,9 @@
--- NO MORE CONFIG NEEDED
-
-local opts = {
-    highlight_hovered_item = true,
-    -- width = 35,
-    show_guides = true,
-}
-
-
--- require'hop'.setup()
 require('neogen').setup ({ snippet_engine = "luasnip" })
 require('better_escape').setup()
 require('Comment').setup()
 require('nvim-web-devicons').setup()
-require("symbols-outline").setup(opts)
+require("fidget").setup()
+require("harpoon").setup()
 
 require("colorizer").setup {
       filetypes = { "*" },
