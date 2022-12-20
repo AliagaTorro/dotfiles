@@ -31,16 +31,16 @@ vim.keymap.set({ "i", "s" }, "<a-p>", function()
 	end
 end, { silent = true })
 
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
-	if ls.jumpable(1) then
-		ls.jump(1)
-	end
-end, { silent = true })
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
-	if ls.jumpable(-1) then
-		ls.jump(-1)
-	end
-end, { silent = true })
+-- vim.keymap.set({ "i", "s" }, "<c-j>", function()
+-- 	if ls.jumpable(1) then
+-- 		ls.jump(1)
+-- 	end
+-- end, { silent = true })
+-- vim.keymap.set({ "i", "s" }, "<c-k>", function()
+-- 	if ls.jumpable(-1) then
+-- 		ls.jump(-1)
+-- 	end
+-- end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<c-l>", function()
 	if ls.choice_active() then

@@ -10,6 +10,18 @@ return require("packer").startup {
             requires = { "kyazdani42/nvim-web-devicons", opt = true } 
         }
 
+        -- use({
+        --     "glepnir/lspsaga.nvim",
+        --     branch = "main",
+        --     config = function()
+        --         local saga = require("lspsaga")
+        --
+        --         saga.init_lsp_saga({
+        --             -- your configuration
+        --         })
+        --     end,
+        -- })
+
         use { "j-hui/fidget.nvim" }
         use { "ThePrimeagen/harpoon" }
 
@@ -51,6 +63,10 @@ return require("packer").startup {
         use { "onsails/lspkind-nvim" }
         use { "jose-elias-alvarez/null-ls.nvim" }
 
+        -- GIT
+        use { "lewis6991/gitsigns.nvim" }
+        use { "sindrets/diffview.nvim" }
+
         -- COLORS
         use { 'NvChad/nvim-colorizer.lua' }
         -- TODO COMMENTS
@@ -75,15 +91,28 @@ return require("packer").startup {
 
         -- Comments
         use { "numToStr/Comment.nvim" }
-
+        use 'JoosepAlviste/nvim-ts-context-commentstring'
         -- Improve ui
         use { "stevearc/dressing.nvim" }
         -- Tree
+        -- use {
+        --     'nvim-tree/nvim-tree.lua',
+        --     requires = {
+        --         'nvim-tree/nvim-web-devicons', -- optional, for file icons
+        --     },
+        -- }
+
+        -- Unless you are still migrating, remove the deprecated commands from v1.x
+        vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
         use {
-            'nvim-tree/nvim-tree.lua',
-            requires = {
-                'nvim-tree/nvim-web-devicons', -- optional, for file icons
-            },
+            "nvim-neo-tree/neo-tree.nvim",
+            branch = "v2.x",
+            requires = { 
+                "nvim-lua/plenary.nvim",
+                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+                "MunifTanjim/nui.nvim",
+            }
         }
 
         -- REMOVE WAITING TIME
@@ -104,25 +133,25 @@ return require("packer").startup {
         -- FLUTTER
         use { "akinsho/flutter-tools.nvim" }
 
-        use {
-            "someone-stole-my-name/yaml-companion.nvim",
-            requires = {
-                { "neovim/nvim-lspconfig" },
-                { "nvim-lua/plenary.nvim" },
-                { "nvim-telescope/telescope.nvim" },
-            },
-            config = function()
-                require("telescope").load_extension("yaml_schema")
-            end,
-        }
+        -- use {
+        --     "someone-stole-my-name/yaml-companion.nvim",
+        --     requires = {
+        --         { "neovim/nvim-lspconfig" },
+        --         { "nvim-lua/plenary.nvim" },
+        --         { "nvim-telescope/telescope.nvim" },
+        --     },
+        --     config = function()
+        --         require("telescope").load_extension("yaml_schema")
+        --     end,
+        -- }
 
        -- KEYMAPS
-        use {
-            "folke/which-key.nvim",
-            config = function()
-                require("which-key").setup {
-                }
-            end
-        }
+        -- use {
+        --     "folke/which-key.nvim",
+        --     config = function()
+        --         require("which-key").setup {
+        --         }
+        --     end
+        -- }
     end,
 }

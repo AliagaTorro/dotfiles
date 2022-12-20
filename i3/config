@@ -219,3 +219,7 @@ bindsym $mod+Shift+period exec systemctl suspend
 workspace 1 output eDP-1
 workspace 2 output HDMI-1
 exec_always --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
+
+# KEYBOARD
+# setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
+# setxkbmap -layout us -variant dvorak-programmer

@@ -5,7 +5,7 @@ local vnoremap = remap.vnoremap
 local xnoremap = remap.xnoremap
 local nmap = remap.nmap
 
-nnoremap("<leader>s", ":NvimTreeToggle<CR>") 
+nnoremap("<leader>s", ":Neotree toggle<CR>") 
 nnoremap("<leader>u", ":UndotreeToggle<CR>") 
 nnoremap("<esc>", ":noh<CR>")
 
@@ -42,5 +42,5 @@ nnoremap("Q", "<nop>")
 
 -- nnoremap("f", ":HopWord<CR>")
 nnoremap("<leader>f", function()
-    vim.lsp.buf.format()
+    vim.lsp.buf.format({timeout_ms = 2000})
 end)

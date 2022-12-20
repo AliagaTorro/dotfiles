@@ -1,40 +1,25 @@
 require("tokyonight").setup({
-    style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-    light_style = "day", -- The theme is used when the background is set to light
-    transparent = false, -- Enable this to disable setting the background color
+    style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+    transparent = true, -- Enable this to disable setting the background color
     terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
     styles = {
-        -- Style to be applied to different syntax groups
-        -- Value is any valid attr-list value for `:help nvim_set_hl`
         comments = { italic = true },
         keywords = { },
         functions = { bold = true },
         variables = {},
-        -- Background styles. Can be "dark", "transparent" or "normal"
-        sidebars = "dark", -- style for sidebars, see below
-        floats = "dark", -- style for floating windows
+        sidebars = "transparent", -- style for sidebars, see below
+        floats = "transparent", -- style for floating windows
     },
     sidebars = { "qf", "vista_kind", "terminal", "packer" },
-    day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-    hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-    dim_inactive = false, -- dims inactive windows
     lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
-
-    --- You can override specific color groups to use other groups or a hex color
-    --- function will be called with a ColorScheme table
-    ---@param colors ColorScheme
-    -- Change the "hint" color to the "orange" color, and make the "error" color bright red
     on_colors = function(colors)
         colors.hint = colors.orange
         colors.error = "#ff0000"
     end,
 
-    --- You can override specific highlights to use other groups or a hex color
-    --- function will be called with a Highlights and ColorScheme table
-    ---@param highlights Highlights
-    ---@param colors ColorScheme
-    on_highlights = function(highlights, colors) end,
+    -- on_highlights = function(highlights, colors) end,
 })
+
 
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
@@ -77,4 +62,42 @@ require("catppuccin").setup({
 })
 
 
-vim.cmd("colorscheme tokyonight-moon")
+vim.cmd("colorscheme tokyonight-night")
+
+local hl = function(thing, opts)
+    vim.api.nvim_set_hl(0, thing, opts)
+end
+
+hl("SignColumn", {
+    bg = "none",
+})
+
+hl("ColorColumn", {
+    ctermbg = 0,
+    bg = "#2B79A0",
+})
+
+hl("CursorLineNR", {
+    bg = "None"
+})
+
+hl("Normal", {
+    bg = "none"
+})
+
+hl("LineNr", {
+    fg = "#5eacd3"
+})
+
+hl("netrwDir", {
+    fg = "#5eacd3"
+})
+
+vim.cmd([[
+   hi FloatBorder guibg=NONE
+   hi DiagnosticVirtualTextError guibg=NONE
+   hi DiagnosticVirtualTextWarn guibg=NONE
+   hi DiagnosticVirtualTextInfo guibg=NONE
+   hi DiagnosticVirtualTextHint guibg=NONE
+]])
+

@@ -1,8 +1,19 @@
 require('neogen').setup ({ snippet_engine = "luasnip" })
 require('better_escape').setup()
-require('Comment').setup()
+require('Comment').setup({
+    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+    ---Function to call after (un)comment
+})
 require('nvim-web-devicons').setup()
-require("fidget").setup()
+require('gitsigns').setup()
+require("fidget").setup({
+    window = {
+        relative = "win",         -- where to anchor, either "win" or "editor"
+        blend = 0,              -- &winblend for the window
+        zindex = nil,             -- the zindex value for the window
+        border = "none",          -- style of border for the fidget window
+    },
+})
 require("harpoon").setup()
 
 require("colorizer").setup {

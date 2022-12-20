@@ -5,29 +5,16 @@ local inoremap = remap.inoremap
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local border = {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
-}
-
 -- Setup nvim-cmp.
 local cmp = require("cmp")
 local source_mapping = {
     buffer = "[Buff]",
-    -- luasnip = "[Snip]",
+    luasnip = "[Snip]",
     nvim_lsp = "[LSP]",
     nvim_lua = "[Lua]",
     path = "[Path]",
 }
 local lspkind = require("lspkind")
-
--- require("luasnip/loaders/from_vscode").lazy_load() -- loading VSCode snippets
 
 cmp.setup({
     snippet = {
@@ -47,15 +34,18 @@ cmp.setup({
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.confirm({ select = true }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ["<C-j>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
+            elseif luasnip.jumpable(1) then
+                luasnip.jump(1)
             else
+
                 fallback()
             end
         end
         ),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        ["<C-k>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
             elseif luasnip.jumpable(-1) then
@@ -67,12 +57,32 @@ cmp.setup({
         ),
     }),
 
+    -- formatting = {
+    --     format = lspkind.cmp_format({
+    --         mode = "symbol_text",
+    --         menu = source_mapping,
+    --     }),
+    --
+    -- },
     formatting = {
         format = lspkind.cmp_format({
-            mode = "symbol_text",
+            mode = 'symbol_text', -- show only symbol annotations
             menu = source_mapping,
-        }),
+            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        })
     },
+
+    -- formatting = {
+    --     format = function(entry, vim_item)
+    --         local label = vim_item.abbr
+    --         local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+    --         if truncated_label ~= label then
+    --             vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+    --         end
+    --     end,
+    -- },
+
     sources = {
         { name = "nvim_lsp" },
         { name = "luasnip" },
@@ -89,6 +99,28 @@ cmp.setup({
         native_menu = false,
     },
 })
+
+local snippets_paths = function()
+    local plugins = { "friendly-snippets" }
+    local paths = { "~/.config/nvim/lua/snippets/" }
+    local path
+    local root_path = vim.env.HOME .. "/.vim/plugged/" 
+    for _, plug in ipairs(plugins) do
+        path = root_path .. plug
+        if vim.fn.isdirectory(path) ~= 0 then
+            table.insert(paths, path)
+        end
+    end
+    return paths
+end
+
+require("luasnip.loaders.from_vscode").lazy_load({
+    paths = snippets_paths(),
+    include = nil, -- Load all languages
+    exclude = {},
+})
+
+---------  LSP   -----------
 
 local on_attach = function(client, bufnr)
     require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -109,6 +141,8 @@ local on_attach = function(client, bufnr)
     nnoremap("[d", function() vim.diagnostic.goto_prev() end)
     nnoremap("]d", function() vim.diagnostic.goto_next() end)
     nnoremap("<leader>q", ":TroubleToggle<CR>")
+    nnoremap('gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+    nnoremap('gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
     inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
 end
 
@@ -120,8 +154,11 @@ local function config(_config)
         capabilities = capabilities,
         on_attach = on_attach,
         handlers = {
-            ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single"}),
-            ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = "single", focusable = true, relative = "cursor"}),
+            ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded"}),
+            ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = "rounded", focusable = true, relative = "cursor"}),
+            ["textDocument/show_line_diagnostics"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded"}),
+            ["textDocument/diagnostic"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded"}),
+            ["textDocument/diagnostics"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded"})
         },
     }, _config or {})
 end
@@ -160,11 +197,21 @@ require'lspconfig'.astro.setup(config())
 
 require("lspconfig").eslint.setup(config())
 
+require'lspconfig'.phpactor.setup(config())
+
+require'lspconfig'.intelephense.setup(config())
+
+-- require("lspconfig").dartls.setup(config())
+
 require("lspconfig").yamlls.setup(config({
-    require("yaml-companion").setup()
+    -- require("yaml-companion").setup()
 }))
 
 require("lspconfig").omnisharp_mono.setup(config())
+
+
+require'lspconfig'.angularls.setup(config())
+
 
 require("lspconfig").gopls.setup(config({
     cmd = { "gopls", "serve" },
@@ -183,11 +230,6 @@ require("flutter-tools").setup{
     lsp = {
         capabilities = capabilities,
         on_attach = on_attach,
-        handlers = {
-            ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single"}),
-            ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = "single", focusable = true, relative = "cursor"}),
-        },
-
     },
 }
 
@@ -196,48 +238,53 @@ require("null-ls").setup({
     sources = {
         null_ls.builtins.formatting.dart_format,
         null_ls.builtins.formatting.rustfmt,
-        -- null_ls.builtins.code_actions.eslint,
-        -- require("null-ls").builtins.formatting.stylua,
-        -- require("null-ls").builtins.diagnostics.eslint,
-        -- require("null-ls").builtins.completion.spell,
+        -- null_ls.builtins.formatting.eslint,
+        null_ls.builtins.formatting.prettier,
     },
 })
 
 
-local snippets_paths = function()
-    local plugins = { "friendly-snippets" }
-    local paths = { "~/.config/nvim/lua/snippets/" }
-    local path
-    local root_path = vim.env.HOME .. "/.vim/plugged/" 
-    for _, plug in ipairs(plugins) do
-        path = root_path .. plug
-        if vim.fn.isdirectory(path) ~= 0 then
-            table.insert(paths, path)
-        end
-    end
-    return paths
-end
 
-require("luasnip.loaders.from_vscode").lazy_load({
-    paths = snippets_paths(),
-    include = nil, -- Load all languages
-    exclude = {},
-})
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+--     signs = true,
+--     underline = true,
+--     update_in_insert = false,
+--     virtual_text = true,
+--     float = {
+--         focusable = false,
+--         style = "minimal",
+--         border = "single",
+--         source = "always",
+--         header = "",
+--         prefix = "",
+--     },
+--     underline = true,
+--     update_in_insert = false,
+--     virtual_text = { spacing = 4, prefix = "●" },
+--     severity_sort = true,
+-- })
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    signs = true,
+
+vim.diagnostic.config({
     underline = true,
-    update_in_insert = false,
+    signs = true,
     virtual_text = true,
     float = {
+        show_header = true,
+        source = 'if_many',
+        border = 'rounded',
         focusable = false,
-        style = "minimal",
-        border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
     },
+    update_in_insert = false, -- default to false
+    virtual_text = { spacing = 4, prefix = "●" },
+    severity_sort = false, -- default to false
 })
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
 
 local opts = {
     highlight_hovered_item = true,
@@ -247,3 +294,4 @@ local opts = {
 
 require("symbols-outline").setup(opts)
 
+require('lspconfig.ui.windows').default_options.border = 'rounded'
