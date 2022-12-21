@@ -1,8 +1,18 @@
+local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
+  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.cmd [[packadd packer.nvim]]
+end
+
 return require("packer").startup {
     function(use, use_rocks)
+
+        use 'wbthomason/packer.nvim'
         -- THEME
+        use { "ellisonleao/gruvbox.nvim" }
         use { "folke/tokyonight.nvim" }
-        use { "catppuccin/nvim", as = "catppuccin" }
         -- STATUSLINE
         
         use {
@@ -10,19 +20,6 @@ return require("packer").startup {
             requires = { "kyazdani42/nvim-web-devicons", opt = true } 
         }
 
-        -- use({
-        --     "glepnir/lspsaga.nvim",
-        --     branch = "main",
-        --     config = function()
-        --         local saga = require("lspsaga")
-        --
-        --         saga.init_lsp_saga({
-        --             -- your configuration
-        --         })
-        --     end,
-        -- })
-
-        use { "j-hui/fidget.nvim" }
         use { "ThePrimeagen/harpoon" }
 
         -- DEPENDENCES
@@ -37,6 +34,10 @@ return require("packer").startup {
         -- TREESITTER AND CONTEXT FOLLOW WITH LSP
         use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
         use { "nvim-treesitter/nvim-treesitter-context" }
+        use { -- Additional text objects via treesitter
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            after = 'nvim-treesitter',
+        }
         -- use { "nvim-treesitter/playground" }
 
         -- LOAD CONFIG FILE
@@ -58,10 +59,12 @@ return require("packer").startup {
 
         -- LSP
         use { "neovim/nvim-lspconfig" }
-        use { "williamboman/mason.nvim" }
-        use { "williamboman/mason-lspconfig.nvim" }
         use { "onsails/lspkind-nvim" }
         use { "jose-elias-alvarez/null-ls.nvim" }
+
+        use { "williamboman/mason.nvim" }
+        use { "williamboman/mason-lspconfig.nvim" }
+        use { "j-hui/fidget.nvim" }
 
         -- GIT
         use { "lewis6991/gitsigns.nvim" }
@@ -95,16 +98,6 @@ return require("packer").startup {
         -- Improve ui
         use { "stevearc/dressing.nvim" }
         -- Tree
-        -- use {
-        --     'nvim-tree/nvim-tree.lua',
-        --     requires = {
-        --         'nvim-tree/nvim-web-devicons', -- optional, for file icons
-        --     },
-        -- }
-
-        -- Unless you are still migrating, remove the deprecated commands from v1.x
-        vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-
         use {
             "nvim-neo-tree/neo-tree.nvim",
             branch = "v2.x",
@@ -133,25 +126,8 @@ return require("packer").startup {
         -- FLUTTER
         use { "akinsho/flutter-tools.nvim" }
 
-        -- use {
-        --     "someone-stole-my-name/yaml-companion.nvim",
-        --     requires = {
-        --         { "neovim/nvim-lspconfig" },
-        --         { "nvim-lua/plenary.nvim" },
-        --         { "nvim-telescope/telescope.nvim" },
-        --     },
-        --     config = function()
-        --         require("telescope").load_extension("yaml_schema")
-        --     end,
-        -- }
-
-       -- KEYMAPS
-        -- use {
-        --     "folke/which-key.nvim",
-        --     config = function()
-        --         require("which-key").setup {
-        --         }
-        --     end
-        -- }
+        if is_bootstrap then
+            require('packer').sync()
+        end
     end,
 }

@@ -9,7 +9,7 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-gaps top 32
+gaps bottom 32
 
 # set $mod Mod4
 set $mod Mod1
@@ -171,8 +171,7 @@ bar {
             active_workspace   #282A36 #44475A #F8F8F2
             inactive_workspace #282A36 #282A36 #BFBFBF
             urgent_workspace   #FF5555 #FF5555 #F8F8F2
-            binding_mode       #FF5555 #FF5555 #F8F8F2
-    }
+            binding_mode       #FF5555 #FF5555 #F8F8F2 }
 }
 
 # ------------------------------------------
@@ -183,7 +182,7 @@ exec_always --no-startup-id "~/.config/i3/tray.sh"
 
 exec_always --no-startup-id "wmname compiz"
 
-exec_always --no-startup-id "feh --bg-fill ~/Pictures/wallpapers/elder_ring.png"
+exec_always --no-startup-id "feh --bg-fill ~/Pictures/wallpapers/owl.png"
 
 exec_always --no-startup-id "picom"
 
@@ -202,7 +201,10 @@ bindsym $mod+b exec "brave"
 # bindsym $mod+Shift+s exec --no-startup-id ~/dotfiles/bin/monitor
 # bindsym $mod+Shift+n exec --no-startup-id ~/dotfiles/bin/resolution
 
-# FKeys
+# move focused window between monitors
+bindsym $mod+Shift+greater move container to output right
+bindsym $mod+Shift+less move container to output left
+
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
@@ -219,7 +221,4 @@ bindsym $mod+Shift+period exec systemctl suspend
 workspace 1 output eDP-1
 workspace 2 output HDMI-1
 exec_always --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
-
-# KEYBOARD
-# setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
-# setxkbmap -layout us -variant dvorak-programmer
+# exec_always --no-startup-id xgamma -gamma 0.9

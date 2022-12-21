@@ -19,21 +19,20 @@ local lspkind = require("lspkind")
 cmp.setup({
     snippet = {
         expand = function(args)
-            -- For `vsnip` user.
-            -- vim.fn["vsnip#anonymous"](args.body)
-
             -- For `luasnip` user.
             require("luasnip").lsp_expand(args.body)
-
-            -- For `ultisnips` user.
-            -- vim.fn["UltiSnips#Anon"](args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert({
         ['<C-y>'] = cmp.mapping.complete(),
-        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.confirm({ select = true }),
+        -- ["<C-Space>"] = com.mapping.complete(),
+        -- ["<CR>"] = cmp.mapping.cofirm {
+        --     behavior = cmp.ConfirmBehavior.Replace,
+        --     select = true,
+        -- },
         ["<C-j>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -57,13 +56,6 @@ cmp.setup({
         ),
     }),
 
-    -- formatting = {
-    --     format = lspkind.cmp_format({
-    --         mode = "symbol_text",
-    --         menu = source_mapping,
-    --     }),
-    --
-    -- },
     formatting = {
         format = lspkind.cmp_format({
             mode = 'symbol_text', -- show only symbol annotations
@@ -72,16 +64,6 @@ cmp.setup({
             ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         })
     },
-
-    -- formatting = {
-    --     format = function(entry, vim_item)
-    --         local label = vim_item.abbr
-    --         local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
-    --         if truncated_label ~= label then
-    --             vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
-    --         end
-    --     end,
-    -- },
 
     sources = {
         { name = "nvim_lsp" },
@@ -125,7 +107,7 @@ require("luasnip.loaders.from_vscode").lazy_load({
 local on_attach = function(client, bufnr)
     require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     nnoremap("gd", function() vim.lsp.buf.definition() end)
-    nnoremap("K", function() vim.lsp.buf.hover() end)
+    nnoremap("H", function() vim.lsp.buf.hover() end)
     nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -144,6 +126,16 @@ local on_attach = function(client, bufnr)
     nnoremap('gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
     nnoremap('gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
     inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+        if vim.lsp.buf.format then
+            vim.lsp.buf.format()
+        elseif vim.lsp.buf.formatting then
+            vim.lsp.buf.formatting()
+        end
+    end, { desc = 'Format current buffer with LSP' })
+
+    nnoremap("<leader>f", '<Cmd>Format<CR>')
+    nnoremap("<leader>so", '<Cmd>SymbolsOutline<CR>')
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -243,28 +235,6 @@ require("null-ls").setup({
     },
 })
 
-
-
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
---     signs = true,
---     underline = true,
---     update_in_insert = false,
---     virtual_text = true,
---     float = {
---         focusable = false,
---         style = "minimal",
---         border = "single",
---         source = "always",
---         header = "",
---         prefix = "",
---     },
---     underline = true,
---     update_in_insert = false,
---     virtual_text = { spacing = 4, prefix = "●" },
---     severity_sort = true,
--- })
-
-
 vim.diagnostic.config({
     underline = true,
     signs = true,
@@ -288,7 +258,6 @@ end
 
 local opts = {
     highlight_hovered_item = true,
-    -- width = 35,
     show_guides = true,
 }
 

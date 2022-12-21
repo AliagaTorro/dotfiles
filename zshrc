@@ -3,12 +3,14 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/karulosu/.oh-my-zsh"
+export ESPIDF="/opt/esp-idf"
 
 path+=("/home/karulosu/.local/bin/")
 path+=("/home/karulosu/Applications")
 path+=("/usr/lib/qt6/bin")
 path+=("/home/karulosu/.npm-global/bin/")
 path+=("/home/karulosu/Documents/code/nestjs/node_modules/.bin")
+path+=("/home/karulosu/.cargo/bin/")
 
 export PATH=/usr/local/share/npm/bin:$PATH
 
@@ -114,6 +116,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias logout="kill -9 -1"
 
+bindkey -s ^f "tmux-sessionizer\n"
 
 # Network
 
@@ -134,16 +137,6 @@ alias .5='cd ../../../../..'
 
 # vim and emacs
 alias vim='nvim'
-alias em='/usr/bin/emacs -nw'
-alias emacs="emacsclient -c -a 'emacs'"
-alias doomsync="~/.emacs.d/bin/doom sync"
-alias doomdoctor="~/.emacs.d/bin/doom doctor"
-alias doomupgrade="~/.emacs.d/bin/doom upgrade"
-alias doompurge="~/.emacs.d/bin/doom purge"
-
-# broot
-alias br='broot -dhp'
-alias bs='broot --sizes'
 
 # Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
@@ -153,12 +146,6 @@ alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
 alias paclean='sudo pacman -Rns $(pacman -Qtdq)'  # remove orphaned packages
-
-# get fastest mirrors
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
-alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
-alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
 
 # Colorize grep output (good for log files)
 alias grep='grep --color=auto'
@@ -216,7 +203,6 @@ alias ytv-best="yt-dlp -f bestvideo+bestaudio "
 alias f='cd $(fd --type d --hidden --exclude .git --exclude node_module --exclude .cache --exclude .npm --exclude .mozilla --exclude .meteor --exclude .nv | fzf)'
 
 # xdg-open
-
     
 function open() {
     xdg-open "$1" & disown
@@ -225,6 +211,36 @@ function open() {
 # custom cd
 
 alias cdc="cd ~/Documents/code/ && ls"
+# if ( ! tmux list-sessions | grep -q "base" ) then
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    exec tmux 
+fi
+# fi
+
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval "$(starship init zsh)"
+
+lazynvm() {
+  unset -f nvm node npm
+  export NVM_DIR=~/.nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+}
+
+nvm() {
+  lazynvm 
+  nvm $@
+}
+
+node() {
+  lazynvm
+  node $@
+}
+
+npm() {
+  lazynvm
+  npm $@
+}
+# Load Angular CLI autocompletion.
+# source <(ng completion script)
+alias lg='lazygit'

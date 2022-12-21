@@ -1,31 +1,3 @@
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
---
--- -- empty setup using defaults
--- require("nvim-tree").setup({
---     actions = {
---         open_file = {
---             quit_on_open = true,
---         }
---     }
--- })
-
-
-
--- vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
---
--- -- If you want icons for diagnostic errors, you'll need to define them somewhere:
--- vim.fn.sign_define("DiagnosticSignError",
--- {text = " ", texthl = "DiagnosticSignError"})
--- vim.fn.sign_define("DiagnosticSignWarn",
--- {text = " ", texthl = "DiagnosticSignWarn"})
--- vim.fn.sign_define("DiagnosticSignInfo",
--- {text = " ", texthl = "DiagnosticSignInfo"})
--- vim.fn.sign_define("DiagnosticSignHint",
--- {text = "", texthl = "DiagnosticSignHint"})
--- -- NOTE: this is changed from v1.x, which used the old style of highlight groups
--- -- in the form "LspDiagnosticsSignWarning"
---
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 -- If you want icons for diagnostic errors, you'll need to define them somewhere:
@@ -48,12 +20,12 @@ require("neo-tree").setup({
     sort_case_insensitive = false, -- used when sorting files and directories in the tree
     sort_function = nil , -- use a custom function for sorting files and directories in the tree 
     -- sort_function = function (a,b)
-    --       if a.type == b.type then
-    --           return a.path > b.path
-    --       else
-    --           return a.type > b.type
-    --       end
-    --   end , -- this sorts files and directories descendantly
+    --     if a.type == b.type then
+    --         return a.path > b.path
+    --     else
+    --         return a.type > b.type
+    --     end
+    -- end , -- this sorts files and directories descendantly
     default_component_configs = {
         container = {
             enable_character_fade = true
@@ -108,7 +80,7 @@ require("neo-tree").setup({
     },
     window = {
         position = "left",
-        width = 40,
+        width = 32,
         mapping_options = {
             noremap = true,
             nowait = true,

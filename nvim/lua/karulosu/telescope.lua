@@ -13,7 +13,7 @@ require("telescope").setup({
 		color_devicons = true,
 		path_display={"smart"}, --"tail"
 
-		-- file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+		file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 		grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
 		qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
