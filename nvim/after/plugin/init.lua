@@ -17,8 +17,8 @@ require("fidget").setup({
 require("harpoon").setup()
 
 require("colorizer").setup {
-      filetypes = { "*" },
-      user_default_options = {
+    filetypes = { "*" },
+    user_default_options = {
         RGB = true, -- #RGB hex codes
         RRGGBB = true, -- #RRGGBB hex codes
         names = false, -- "Name" codes like Blue or blue
@@ -36,9 +36,10 @@ require("colorizer").setup {
         -- parsers can contain values used in |user_default_options|
         sass = { enable = false, parsers = { css }, }, -- Enable sass colors
         virtualtext = "■",
-      },
-      -- all the sub-options of filetypes apply to buftypes
-      buftypes = {},
+    },
+    -- all the sub-options of filetypes apply to buftypes
+    buftypes = {},
 }
 
 require("nvim-surround").setup()
+
