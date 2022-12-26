@@ -1,26 +1,26 @@
--- require('impatient')
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+require "karulosu.plugins"
 require "karulosu.set"
-require "karulosu.packer"
+
 
 -- Plugin Config
 require "karulosu.statusline"
 require "karulosu.telescope"
 require "karulosu.colors"
 require "karulosu.debugger"
--- require "karulosu.neotree"
--- require "karulosu.colorizer"
--- require "karulosu.todo-comments"
--- require "karulosu.snipets"
--- require "karulosu.treesitter"
--- require "karulosu.dressing"
--- require "karulosu.luasnip"
--- require "karulosu.mapping"
--- require "karulosu.indent_blankline"
--- require "karulosu.aerial"
--- require "karulosu.bufferline"
--- require "karulosu.lsp_signature"
--- require "karulosu.lsp"
--- require "karulosu.wrap-toggle"
+
 -- THEMES
 -- *** karulosu.lsp *** 
 -- Diagnostics and doc
