@@ -1,11 +1,18 @@
 require("lazy").setup({
-    "wbthomason/packer.nvim",
     -- THEME
     "ellisonleao/gruvbox.nvim",
     {
         "folke/tokyonight.nvim",
         lazy = false
     },
+
+    -- {
+    --     'huggingface/hfcc.nvim',
+    --     opts = {
+    --         api_token = "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",
+    --         model = "bigcode/starcoder", -- can be a model ID or an http endpoint
+    --     }
+    -- },
 
     {
         "kyazdani42/nvim-web-devicons",
@@ -19,41 +26,47 @@ require("lazy").setup({
     },
     "ThePrimeagen/harpoon",
     'phaazon/mind.nvim',
-        -- DEPENDENCES
+    -- DEPENDENCES
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     "kevinhwang91/promise-async",
 
-        -- KEEP UNDO HISTORTY 
-        "mbbill/undotree",
+    -- KEEP UNDO HISTORTY 
+    "mbbill/undotree",
 
--- TREESITTER AND CONTEXT FOLLOW WITH LSP
-{
-    "nvim-treesitter/nvim-treesitter", 
-    build = ":TSUpdate",
-},
-"nvim-treesitter/nvim-treesitter-context",
--- Additional text objects via treesitter
-{
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    dependencies = 'nvim-treesitter',
-    -- "nvim-treesitter/playground",
-},
-        -- LOAD CONFIG FILE
-        "gpanders/editorconfig.nvim",
-
-        -- TELESCOPE
-{
-            "nvim-telescope/telescope.nvim",
-            dependencies = {"nvim-lua/plenary.nvim"}
-},
-
-        -- TELESCOPE EXTENSIONS
-        "nvim-telescope/telescope-project.nvim",
-        {
-            "folke/trouble.nvim",
+    -- TREESITTER AND CONTEXT FOLLOW WITH LSP
+    {
+        "nvim-treesitter/nvim-treesitter", 
+        build = ":TSUpdate",
+        event = "VeryLazy",
     },
-{
+    "nvim-treesitter/nvim-treesitter-context",
+    -- Additional text objects via treesitter
+    {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        dependencies = 'nvim-treesitter',
+        -- "nvim-treesitter/playground",
+    },
+    -- LOAD CONFIG FILE
+    "gpanders/editorconfig.nvim",
+    -- {
+    --     "iamcco/markdown-preview.nvim",
+    --     build = "cd app && npm install",
+    --     ft = "markdown",
+    --     config = function() vim.g.mkdp_filetypes = { "markdown" } end,
+    -- },
+    -- TELESCOPE
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {"nvim-lua/plenary.nvim"}
+    },
+
+    -- TELESCOPE EXTENSIONS
+    "nvim-telescope/telescope-project.nvim",
+    {
+        "folke/trouble.nvim",
+    },
+    {
         "nvim-telescope/telescope-fzf-native.nvim", 
         build = "make",
     },
@@ -65,7 +78,10 @@ require("lazy").setup({
 
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "j-hui/fidget.nvim",
+    {
+        "j-hui/fidget.nvim",
+        tag = "legacy",
+    },
 
     -- GIT
     "lewis6991/gitsigns.nvim",
@@ -81,8 +97,7 @@ require("lazy").setup({
 
     -- AUTOCOMPLETION
     {
-    "hrsh7th/nvim-cmp",
-    event = 'InsertEnter',
+        "hrsh7th/nvim-cmp",
         dependencies = {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-nvim-lsp",
@@ -116,7 +131,7 @@ require("lazy").setup({
     -- REMOVE WAITING TIME
     "max397574/better-escape.nvim",
     -- CONTEXT AND CHARACTERS
-    "lukas-reineke/indent-blankline.nvim",
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}},
     -- LSP SYMBOLS OF THE DOC
     "simrat39/symbols-outline.nvim",
     "danymat/neogen",

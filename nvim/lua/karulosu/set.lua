@@ -7,9 +7,7 @@ vim.opt.errorbells = false
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-
+vim.opt.shiftwidth = 4 vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
@@ -46,6 +44,7 @@ vim.opt.cursorline = true
 vim.g.mapleader = " "
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+-- vim.keymap.set({ 'i' }. '<tab>', "")
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })

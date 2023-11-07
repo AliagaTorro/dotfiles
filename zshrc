@@ -4,6 +4,9 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/home/karulosu/.oh-my-zsh"
 export ESPIDF="/opt/esp-idf"
+export ANDROID_SDK_ROOT=/opt/android-sdk/
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
 path+=("/home/karulosu/.local/bin/")
 path+=("/home/karulosu/Applications")
@@ -211,6 +214,7 @@ function open() {
 # custom cd
 
 alias cdc="cd ~/Documents/code/ && ls"
+alias tfg='cd ~/Documents/final_thesis/project/ && ./run && source ./python/bin/activate && cd ~/Documents/final_thesis/project/python/src/restAPI/'
 # if ( ! tmux list-sessions | grep -q "base" ) then
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
     exec tmux 

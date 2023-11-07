@@ -1,5 +1,5 @@
 require("tokyonight").setup({
-    style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+    style = "moon", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
     transparent = false, -- Enable this to disable setting the background color
     terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
     styles = {
@@ -7,8 +7,8 @@ require("tokyonight").setup({
         keywords = { },
         functions = { bold = true },
         variables = {},
-        sidebars = "transparent", -- style for sidebars, see below
-        floats = "transparent", -- style for floating windows
+        sidebars = "dark",--"transparent", -- style for sidebars, see below
+        floats = "dark",--"transparent", -- style for floating windows
     },
     sidebars = { "qf", "vista_kind", "terminal", "packer" },
     lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
@@ -20,7 +20,7 @@ require("tokyonight").setup({
     -- on_highlights = function(highlights, colors) end,
 })
 
-vim.cmd("colorscheme tokyonight-night")
+vim.cmd("colorscheme tokyonight")
 
 local hl = function(thing, opts)
     vim.api.nvim_set_hl(0, thing, opts)

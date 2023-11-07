@@ -1,5 +1,16 @@
-require("indent_blankline").setup {
-    show_current_context = true,
-    show_current_context_start = false,
-    show_trailing_blankline_indent = false,
-}
+require("ibl").setup({
+    indent = { char = "│", tab_char = "│" },
+    scope = {
+        show_start = false,
+        show_end = false,
+        injected_languages = true,
+        priority = 1024,
+        include = {
+            node_type = {
+                ["*"] = {
+                   "*" 
+                },
+            },
+        },
+    },
+})

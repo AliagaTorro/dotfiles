@@ -171,6 +171,17 @@ require("lspconfig").ccls.setup(config())
 
 require("lspconfig").jedi_language_server.setup(config())
 
+require("lspconfig").pylsp.setup(config(
+    {
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = { ignore = E501 },
+            }
+        }
+    }
+}
+))
 -- require("lspconfig").pyright.setup(config())
 
 require("lspconfig").cssls.setup(config())
@@ -187,7 +198,7 @@ require("lspconfig").jsonls.setup(config())
 
 require'lspconfig'.astro.setup(config())
 
-require("lspconfig").eslint.setup(config())
+-- require("lspconfig").eslint.setup(config())
 
 require'lspconfig'.phpactor.setup(config())
 
@@ -217,6 +228,17 @@ require("lspconfig").gopls.setup(config({
     },
 }))
 
+-- require "lspconfig".efm.setup {
+--     init_options = {documentFormatting = true},
+--     settings = {
+--         rootMarkers = {".git/"},
+--         languages = {
+--             lua = {
+--                 {formatCommand = "lua-format -i", formatStdin = true}
+--             }
+--         }
+--     }
+-- }
 
 require("flutter-tools").setup{
     lsp = {

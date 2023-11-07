@@ -6,9 +6,12 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
+        disable = function(lang, bufnr) -- Disable in large C++ buffers
+            return vim.api.nvim_buf_line_count(bufnr) > 5000
+        end,
     },
     indent = {
-        enable = true
+        enable = true 
     },
     playground = {
         enable = true,
