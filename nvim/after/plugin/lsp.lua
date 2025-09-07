@@ -159,17 +159,17 @@ require("mason").setup()
 
 require("mason-lspconfig").setup()
 
-require("lspconfig").tsserver.setup(config({
-    init_options = {
-    preferences = {
-            disableSuggestions = true,
-        }
-    }
-}))
+-- require("lspconfig").ts_ls.setup(config({
+--     init_options = {
+--     preferences = {
+--             disableSuggestions = true,
+--         }
+--     }
+-- }))
 
-require("lspconfig").ccls.setup(config())
+-- require("lspconfig").ccls.setup(config())
 
-require("lspconfig").jedi_language_server.setup(config())
+-- require("lspconfig").jedi_language_server.setup(config())
 
 require("lspconfig").pylsp.setup(config(
     {
@@ -184,49 +184,49 @@ require("lspconfig").pylsp.setup(config(
 ))
 -- require("lspconfig").pyright.setup(config())
 
-require("lspconfig").cssls.setup(config())
-
-require("lspconfig").emmet_ls.setup(config())
-
+-- require("lspconfig").cssls.setup(config())
+--
+-- require("lspconfig").emmet_ls.setup(config())
+--
 require("lspconfig").html.setup(config())
-
+--
 require("lspconfig").cssls.setup(config())
-
+--
 require("lspconfig").rust_analyzer.setup(config())
-
+--
 require("lspconfig").jsonls.setup(config())
+--
+-- require'lspconfig'.astro.setup(config())
 
-require'lspconfig'.astro.setup(config())
+require("lspconfig").eslint.setup(config())
 
--- require("lspconfig").eslint.setup(config())
-
-require'lspconfig'.phpactor.setup(config())
-
-require'lspconfig'.intelephense.setup(config())
+-- require'lspconfig'.phpactor.setup(config())
+--
+-- require'lspconfig'.intelephense.setup(config())
 
 -- require("lspconfig").dartls.setup(config())
 
-require("lspconfig").yamlls.setup(config({
-    -- require("yaml-companion").setup()
-}))
+-- require("lspconfig").yamlls.setup(config({
+--     -- require("yaml-companion").setup()
+-- }))
 
-require("lspconfig").omnisharp_mono.setup(config())
-
-
-require'lspconfig'.angularls.setup(config())
-
-
-require("lspconfig").gopls.setup(config({
-    cmd = { "gopls", "serve" },
-    settings = {
-        gopls = {
-            analyses = {
-                unusedparams = true,
-            },
-            staticcheck = true,
-        },
-    },
-}))
+-- require("lspconfig").omnisharp_mono.setup(config())
+--
+--
+-- require'lspconfig'.angularls.setup(config())
+--
+--
+-- require("lspconfig").gopls.setup(config({
+--     cmd = { "gopls", "serve" },
+--     settings = {
+--         gopls = {
+--             analyses = {
+--                 unusedparams = true,
+--             },
+--             staticcheck = true,
+--         },
+--     },
+-- }))
 
 -- require "lspconfig".efm.setup {
 --     init_options = {documentFormatting = true},
@@ -240,22 +240,12 @@ require("lspconfig").gopls.setup(config({
 --     }
 -- }
 
-require("flutter-tools").setup{
-    lsp = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-    },
-}
-
-local null_ls = require("null-ls")
-require("null-ls").setup({
-    sources = {
-        null_ls.builtins.formatting.dart_format,
-        null_ls.builtins.formatting.rustfmt,
-        -- null_ls.builtins.formatting.eslint,
-        null_ls.builtins.formatting.prettier,
-    },
-})
+-- require("flutter-tools").setup{
+--     lsp = {
+--         capabilities = capabilities,
+--         on_attach = on_attach,
+--     },
+-- }
 
 vim.diagnostic.config({
     underline = true,

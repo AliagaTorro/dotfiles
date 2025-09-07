@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    IFS=$'\n' read -d '' -r -a lines < ~/Documents/dotfiles/workspaces.txt
+    path_options=()
+    for line in "${lines[@]}"; do
+        path=$(echo $line | awk -F ',' '{print $1}')
+        min_depth=$(echo $line | awk -F ',' '{print $2}')
+        max_depth=$(echo $line | awk -F ',' '{print $3}')
+        path_options+=($(find "$path" -mindepth $min_depth -maxdepth $max_depth -type d | tr '\n' ' '))
+    done
+    selected=$(echo ${path_options[@]} | tr ' ' '\n' | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name

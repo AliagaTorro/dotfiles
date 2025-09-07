@@ -1,6 +1,6 @@
 # Font configuration
 
-font_family Fira Code Retina Nerd Font Complete
+font_family Fira Code Regular
 # font_family      Ubuntu Mono karulosu Medium Extended
 # bold_font        Ubuntu Mono karulosu Medium Extended Bold # Extended
 # italic_font      Ubuntu Mono karulosu Medium Extended Italic # Extended 
@@ -10,14 +10,14 @@ font_features FiraCode-Regular +cv02 +ss01 +ss05 +cv29
 adjust_line_height  1
 adjust_column_width 2
 
-font_size 12.0
+font_size 14.0
 
 sync_to_monitor no
 disable_ligatures always
 
 window_padding_width 4
 
-# background_opacity .98
+background_opacity .80
 background_image_layout scaled
 
 # NO BELLS!
@@ -27,10 +27,6 @@ map ctrl+shift+q noop
 map ctrl+shift+w noop
 
 map ctrl+shift+p>n kitten hints --type=linenum --linenum-action=tab nvim +{line} {path}
-
-clipboard_control write-clipboard read-clipboard
-
-copy_on_select yes
 
 kitty tmux
 
